@@ -6,6 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
+import checkFile from 'eslint-plugin-check-file'
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -23,10 +24,27 @@ export default defineConfig([
     },
     plugins: {
       'simple-import-sort': simpleImportSort,
+      'check-file': checkFile,
     },
     rules: {
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+
+      'check-file/filename-naming-convention': [
+        'error',
+        {
+          '**/*.{ts,tsx}': 'KEBAB_CASE',
+        },
+        {
+          ignoreMiddleExtensions: true,
+        },
+      ],
+      'check-file/folder-naming-convention': [
+        'error',
+        {
+          'src/**/!(__tests__)': 'KEBAB_CASE',
+        },
+      ],
     },
   },
   eslintConfigPrettier,
