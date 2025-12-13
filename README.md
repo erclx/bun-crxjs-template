@@ -4,17 +4,17 @@ This template helps you quickly start developing Chrome extensions with React, T
 
 ## Using This Template
 
-1. Clone the repository:
+1. Clone the repository with your project name:
 
 ```bash
 git clone https://github.com/erclx/bun-crxjs-template my-extension
 cd my-extension
 ```
 
-2. Reset the template for your new project:
+2. Reset the template (auto-detects project name from folder):
 
 ```bash
-bun reset my-extension
+bun reset
 ```
 
 This will clean the template, update project metadata, and initialize a fresh Git repository.
@@ -27,6 +27,7 @@ This will clean the template, update project metadata, and initialize a fresh Gi
 - Chrome extension manifest configuration
 - ESLint and Prettier
 - Husky and Commitlint
+- Tailwind CSS v4
 
 ## Development
 
@@ -56,6 +57,7 @@ bun build
 - [React Documentation](https://reactjs.org/)
 - [Vite Documentation](https://vitejs.dev/)
 - [CRXJS Documentation](https://crxjs.dev/vite-plugin)
+- [Tailwind CSS Documentation](https://tailwindcss.com/)
 
 ## Chrome Extension Development Notes
 

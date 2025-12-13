@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Template reset script for CRXJS Chrome extension projects
-# Usage: bun reset <project-name>
+# Usage: bun reset [project-name]
+# If no project name is provided, uses the current directory name
 
 if [ -z "$1" ]; then
-  echo "Error: No project name specified."
-  echo "Usage: bun reset <project-name>"
-  exit 1
+  PROJECT_NAME=$(basename "$PWD")
+  echo "Using directory name as project name: $PROJECT_NAME"
+else
+  PROJECT_NAME=$1
 fi
-
-PROJECT_NAME=$1
 PROJECT_TITLE=$(echo "$PROJECT_NAME" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++)sub(/./,toupper(substr($i,1,1)),$i)}1')
 
 echo "Resetting template for project: $PROJECT_NAME"
@@ -66,5 +66,5 @@ git add .
 git commit -m "chore: initial commit" --no-verify > /dev/null 2>&1
 
 echo ""
-echo "Done! Project $PROJECT_NAME is ready."
+echo "Done! Project '$PROJECT_NAME' is ready."
 echo "Run 'bun dev' to start development."
