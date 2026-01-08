@@ -107,12 +107,10 @@ main() {
 
     # 3. Validate
     log_step "Running Validation Checks..."
-    
-    # We use '|| exit 1' to stop immediately if a check fails
+
     run_check "Checking Types" "bun x tsc --noEmit" || exit 1
     run_check "Linting" "bun run lint" || exit 1
-
-    # Spelling is non-fatal (warn only)
+    
     if ! run_check "Spell Check" "bun run lint:spelling"; then
         log_warn "Spelling issues found (ignoring for build)..."
     fi
@@ -121,8 +119,15 @@ main() {
 
     # 4. Commit
     log_step "Review Changes"
+
+    # Check if files actually changed
+    if git diff --quiet package.json && git diff --quiet bun.lock; then
+        log_info "No changes detected in package.json or bun.lock."
+        exit 0
+    fi
+
     echo -e "${GRAY}Packages updated:${NC}"
-    git diff package.json | grep -E "^\+.*\"" | sed 's/^+/  /'
+    git diff package.json | grep -E "^\+.*\"" | sed 's/^+/  /' || echo "  (Only lockfile updates or removals)"
 
     if [ "$AUTO_COMMIT" = true ] || ask_confirm "\nCommit these updates?"; then
         git add package.json bun.lock
