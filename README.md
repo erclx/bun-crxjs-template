@@ -1,6 +1,6 @@
-# React + Vite + CRXJS Template
+# Chrome Extension Template
 
-This template helps you quickly start developing Chrome extensions with React, TypeScript and Vite. It includes the CRXJS Vite plugin for seamless Chrome extension development.
+A Chrome extension starter built with React, TypeScript, Vite, and CRXJS.
 
 ## Using This Template
 

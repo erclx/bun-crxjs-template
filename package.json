@@ -1,9 +1,9 @@
 {
-  "name": "bun-crxjs-template",
+  "name": "chrome-extension-template",
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "A template for building Chrome extensions with React, TypeScript, and Vite",
+  "description": "A Chrome extension built with React, TypeScript, Vite, and CRXJS",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
