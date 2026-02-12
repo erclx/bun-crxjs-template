@@ -121,7 +121,7 @@ The following scripts are available for development and maintenance:
 - `bun run check`: Executes `./scripts/verify.sh` for comprehensive checks.
 - `bun run check:full`: Executes `./scripts/verify.sh` and end-to-end tests.
 - `bun run clean`: Executes `./scripts/clean.sh` to clean build artifacts.
-- `bun run update`: Executes `./scripts/update.sh` (likely for dependency updates or similar maintenance).
+- `bun run update`: Executes `./scripts/update.sh` to update dependencies.
 
 ## Documentation
 
