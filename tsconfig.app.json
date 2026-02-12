@@ -9,7 +9,8 @@
       "vite/client",
       "vitest/globals",
       "@testing-library/jest-dom",
-      "chrome"
+      "chrome",
+      "node"
     ],
     "skipLibCheck": true,
 
