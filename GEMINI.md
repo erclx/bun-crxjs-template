@@ -1,90 +1,71 @@
-# Chrome Extension Template
+# Project Context: Chrome Extension Template
 
-This project is a template for building Chrome Extensions. It uses a modern web development stack to simplify browser extension development, emphasizing developer experience, performance, and code quality.
+## 1. Technical Stack
 
-## Project Overview
+- **Runtime & Package Manager:** Bun (Strictly enforced)
+- **Framework:** React 19
+- **Language:** TypeScript (Strict mode)
+- **Build Tool:** Vite 7 + CRXJS
+- **Styling:** Tailwind CSS v4
+- **Testing:** Vitest (Unit), Playwright (E2E)
 
-- **Type**: Chrome Extension Template
-- **Technologies**: React, TypeScript, Vite, CRXJS (Vite plugin for Chrome Extension development), Tailwind CSS, Bun (as the package manager and runtime).
-- **Purpose**: Provides a starter for creating Chrome extensions. It includes pre-configured tools for building UI, managing the extension manifest, and enforcing code standards.
-- **Key Features**:
-  - Separate entry points for popup, side panel, and content scripts.
-  - Integrated development tools: ESLint, Prettier, Husky (for Git hooks), and Commitlint (for conventional commit messages).
-  - Testing setup with Vitest (for unit/integration tests) and Playwright (for end-to-end tests).
+## 2. Development Conventions
 
-## Project Structure
+### File & Directory Naming
 
-A concise overview of the primary directories within `src/`:
+- **Enforcement:** `eslint-plugin-check-file`
+- **Rule:** All source files (`.ts`, `.tsx`) and directories within `src/` must use **kebab-case**.
+  - Correct: `src/components/user-card.tsx`
+  - Incorrect: `src/components/UserCard.tsx`
+- **Exception:** Special configuration files at the root level.
 
-```
-src/
-├── background/      # Background service worker scripts
-│   └── index.ts
-├── content/         # Content scripts that interact with web pages
-│   ├── main.tsx
-│   └── views/       # React components for content scripts
-│       └── app.tsx
-├── popup/           # React UI for the extension popup
-│   ├── app.tsx
-│   ├── index.html
-│   └── main.tsx
-├── shared/          # Reusable components, hooks, types, and utilities
-│   ├── components/
-│   ├── hooks/
-│   ├── types/
-│   └── utils/
-│       └── cn.ts
-├── sidepanel/       # React UI for the extension side panel
-│   ├── app.tsx
-│   ├── index.html
-│   └── main.tsx
-└── test/            # Test setup and smoke tests
-    ├── setup.ts
-    └── smoke.test.ts
-```
+### Coding Style
 
-## Building and Running
+- **Formatter:** Prettier (Enforced via `lint-staged`).
+  - Semicolons: **False**
+  - Quotes: **Single**
+  - JSX Quotes: **Single**
+  - Trailing Commas: **ES5**
+- **Imports:** Automatically sorted using `eslint-plugin-simple-import-sort`.
+- **CSS:** Use Tailwind utility classes. For conditional classes, strictly use the `cn()` utility located at `@/shared/utils/cn`.
 
-The project uses `Bun` as the package manager. Ensure Bun is installed globally before proceeding.
+### Git Standards
 
-- **Initial Setup**:
-  1. Clone the repository: `git clone <repo-url> my-extension`
-  2. Navigate to the project directory: `cd my-extension`
-  3. Run the setup script: `bun run reset` (this executes `scripts/setup.sh` to clean the template, update metadata, and initialize Git).
-- **Install Dependencies**: `bun run install`
-- **Start Development Server**: `bun run dev`
-  - This command starts the Vite development server.
-  - To load the extension in Chrome:
-    1.  Open `chrome://extensions/` in your browser.
-    2.  Enable "Developer mode".
-    3.  Click "Load unpacked" and select the `dist` directory from your project.
-- **Build for Production**: `bun build`
-  - Compiles TypeScript and bundles assets for production.
-- **Preview Production Build**: `bun preview`
+- **Commit Messages:** Must adhere to **Conventional Commits** (e.g., `feat:`, `fix:`, `chore:`, `docs:`).
+- **Hooks:**
+  - `pre-commit`: Runs `lint-staged` (ESLint + Prettier).
+  - `commit-msg`: Validates commit message format.
+  - `pre-push`: Runs `./scripts/verify.sh` (Typecheck, Lint, Spellcheck, Test, Build).
 
-## Development Conventions
+## 3. Architecture Overview
 
-### Script Commands
+### Entry Points
 
-The following scripts are available for development and maintenance:
+- **Popup:** `src/popup/` - Standard extension popup UI.
+- **Side Panel:** `src/sidepanel/` - Chrome Side Panel API UI.
+- **Content Scripts:** `src/content/`
+  - `main.tsx`: Entry point for injection logic.
+  - `views/`: React roots/components for injected content.
+- **Background:** `src/background/` - Service worker logic.
 
-- `bun run dev`: Starts the development server.
-- `bun run build`: Builds the project for production.
-- `bun run preview`: Previews the production build locally.
-- `bun run prepare`: Runs Husky setup for Git hooks.
-- `bun run format`: Formats code using Prettier.
-- `bun run check:format`: Checks code formatting using Prettier.
-- `bun run lint`: Lints code using ESLint.
-- `bun run lint:fix`: Lints code and fixes issues using ESLint.
-- `bun run lint:spell`: Checks spelling across the project using CSpell.
-- `bun run typecheck`: Runs TypeScript type checking.
-- `bun run test`: Runs unit/integration tests using Vitest.
-- `bun run test:ui`: Runs Vitest in UI mode.
-- `bun run test:coverage`: Runs Vitest and generates code coverage reports.
-- `bun run test:e2e`: Runs end-to-end tests using Playwright.
-- `bun run test:e2e:ui`: Runs Playwright in UI mode.
-- `bun run test:e2e:report`: Shows Playwright test reports.
-- `bun run check`: Executes `./scripts/verify.sh` for comprehensive checks.
-- `bun run check:full`: Executes `./scripts/verify.sh` and end-to-end tests.
-- `bun run clean`: Executes `./scripts/clean.sh` to clean build artifacts.
-- `bun run update`: Executes `./scripts/update.sh` to update dependencies.
+### Shared Logic
+
+- Place reusable code in `src/shared/` (`components`, `hooks`, `types`, `utils`).
+- Always use the `@/` path alias to reference `src/`.
+
+## 4. Testing Protocols
+
+- **Unit Tests (Vitest):**
+  - Run: `bun run test`
+  - Scope: Utility functions, hooks, and isolated React components.
+  - Environment: `jsdom`.
+- **E2E Tests (Playwright):**
+  - Run: `bun run test:e2e`
+  - Scope: Full extension workflows, popup interactions, and smoke tests.
+
+## 5. Key Scripts
+
+- `bun run dev`: Start HMR dev server.
+- `bun run build`: Production build (outputs to `dist/`).
+- `bun run check`: Full integrity check (Types, Lint, Format, Spell, Unit Test, Build).
+- `bun run reset`: **Warning** - Resets the project identity (only for initial template setup).
