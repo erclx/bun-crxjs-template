@@ -128,6 +128,9 @@ update_metadata() {
       pkg.scripts.clean = './scripts/clean.sh';
       pkg.scripts.update = './scripts/update.sh';
 
+      // Remove reset script
+      delete pkg.scripts.reset;
+
       fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
     }
 
