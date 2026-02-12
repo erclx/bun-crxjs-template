@@ -24,7 +24,8 @@
     "check": "./scripts/verify.sh",
     "check:full": "./scripts/verify.sh && bun run test:e2e",
     "clean": "./scripts/clean.sh",
-    "update": "./scripts/update.sh"
+    "update": "./scripts/update.sh",
+    "reset": "./scripts/setup.sh"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
