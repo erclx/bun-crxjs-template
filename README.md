@@ -4,13 +4,17 @@ This project is a template for building Chrome Extensions. It uses a modern web 
 
 ## Features
 
-- Separate entry points for popup, side panel, and content scripts.
-- Automated manifest generation via CRXJS.
-- Integrated development tools: ESLint, Prettier, Husky (for Git hooks), and Commitlint (for conventional commit messages).
-- Testing setup with Vitest (for unit/integration tests) and Playwright (for end-to-end tests).
-- React with TypeScript.
-- Vite build tool.
-- Tailwind CSS v4.
+- **Architecture**: Separate entry points for popup, side panel, content scripts, and background service worker.
+- **Build System**: Vite 7 with CRXJS for automated manifest generation and HMR.
+- **Styling**: Tailwind CSS v4 configured with a reusable `cn` utility.
+- **Quality Control**:
+  - **ESLint & Prettier**: Enforced linting and formatting.
+  - **Git Hooks**: Husky pre-commit hooks run `lint-staged`, and pre-push hooks run full project verification.
+  - **Commit Convention**: Commitlint enforces [Conventional Commits](https://www.conventionalcommits.org/).
+  - **Spelling**: CSpell checks for typos in code and documentation.
+- **Testing**:
+  - **Unit**: Vitest with React Testing Library.
+  - **E2E**: Playwright for full extension integration testing.
 
 ## Getting Started
 
@@ -18,14 +22,14 @@ Use `Bun` as the package manager. Ensure `Bun` is installed globally.
 
 ### Initial Setup
 
-Clone the repository with your project name. Then, navigate to the project directory.
+Clone the repository with your project name.
 
 ```bash
-git clone https://github.com/erclx/bun-crxjs-template my-extension
+git clone [https://github.com/erclx/bun-crxjs-template](https://github.com/erclx/bun-crxjs-template) my-extension
 cd my-extension
 ```
 
-Run the setup script. This cleans the template, updates project metadata, and initializes a fresh Git repository.
+**Important:** Run the setup script immediately. This cleans the template history, updates project metadata (package.json, HTML titles), and initializes a fresh Git repository for your new extension.
 
 ```bash
 bun run reset
@@ -41,7 +45,7 @@ bun run install
 
 ### Start Development Server
 
-Run the development server. This command starts the Vite development server.
+Run the development server with Hot Module Replacement (HMR).
 
 ```bash
 bun run dev
@@ -55,7 +59,7 @@ To load the extension in Chrome:
 
 ### Build for Production
 
-Build the project for production. This compiles TypeScript and bundles assets.
+Build the project for production. This compiles TypeScript, minifies assets, and generates a zip file in `release/`.
 
 ```bash
 bun run build
@@ -71,7 +75,7 @@ bun run preview
 
 A concise overview of the primary directories within `src/`:
 
-```
+```text
 src/
 ├── background/      # Background service worker scripts
 │   └── index.ts
@@ -100,28 +104,21 @@ src/
 
 ## Development Commands
 
-The following scripts are available for development and maintenance:
-
 - `bun run dev`: Starts the development server.
 - `bun run build`: Builds the project for production.
 - `bun run preview`: Previews the production build locally.
-- `bun run prepare`: Runs Husky setup for Git hooks.
+- `bun run check`: **Recommended** - Runs typechecking, linting, formatting, spellcheck, tests, and build verification.
+- `bun run check:full`: Runs `check` plus End-to-End tests.
 - `bun run format`: Formats code using Prettier.
-- `bun run check:format`: Checks code formatting using Prettier.
 - `bun run lint`: Lints code using ESLint.
-- `bun run lint:fix`: Lints code and fixes issues using ESLint.
-- `bun run lint:spell`: Checks spelling across the project using CSpell.
-- `bun run typecheck`: Runs TypeScript type checking.
 - `bun run test`: Runs unit/integration tests using Vitest.
-- `bun run test:ui`: Runs Vitest in UI mode.
-- `bun run test:coverage`: Runs Vitest and generates code coverage reports.
 - `bun run test:e2e`: Runs end-to-end tests using Playwright.
-- `bun run test:e2e:ui`: Runs Playwright in UI mode.
-- `bun run test:e2e:report`: Shows Playwright test reports.
-- `bun run check`: Executes `./scripts/verify.sh` for comprehensive checks.
-- `bun run check:full`: Executes `./scripts/verify.sh` and end-to-end tests.
-- `bun run clean`: Executes `./scripts/clean.sh` to clean build artifacts.
-- `bun run update`: Executes `./scripts/update.sh` to update dependencies.
+- `bun run clean`: Removes build artifacts (`dist`, `node_modules`, `coverage`).
+- `bun run update`: Interactively updates dependencies.
+
+## Commit Standards
+
+This project uses **Conventional Commits**. Please refer to [docs/commit.md](docs/commit.md) for detailed guidelines on message formatting, types, and scopes.
 
 ## Documentation
 
@@ -129,6 +126,8 @@ The following scripts are available for development and maintenance:
 - [Vite Documentation](https://vitejs.dev/)
 - [CRXJS Documentation](https://crxjs.dev/vite-plugin)
 - [Tailwind CSS Documentation](https://tailwindcss.com/)
+- [Playwright Documentation](https://playwright.dev/)
+- [Vitest Documentation](https://vitest.dev/)
 
 ## Support
 
