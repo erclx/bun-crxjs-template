@@ -14,7 +14,8 @@
     "tailwindcss",
     "turbopack",
     "Vite",
-    "zod"
+    "zod",
+    "scannability"
   ],
   "ignorePaths": [
     "node_modules",
