@@ -12,6 +12,37 @@ This project is a template for building Chrome Extensions. It uses a modern web 
   - Integrated development tools: ESLint, Prettier, Husky (for Git hooks), and Commitlint (for conventional commit messages).
   - Testing setup with Vitest (for unit/integration tests) and Playwright (for end-to-end tests).
 
+## Project Structure
+
+A concise overview of the primary directories within `src/`:
+
+```
+src/
+├── background/      # Background service worker scripts
+│   └── index.ts
+├── content/         # Content scripts that interact with web pages
+│   ├── main.tsx
+│   └── views/       # React components for content scripts
+│       └── app.tsx
+├── popup/           # React UI for the extension popup
+│   ├── app.tsx
+│   ├── index.html
+│   └── main.tsx
+├── shared/          # Reusable components, hooks, types, and utilities
+│   ├── components/
+│   ├── hooks/
+│   ├── types/
+│   └── utils/
+│       └── cn.ts
+├── sidepanel/       # React UI for the extension side panel
+│   ├── app.tsx
+│   ├── index.html
+│   └── main.tsx
+└── test/            # Test setup and smoke tests
+    ├── setup.ts
+    └── smoke.test.ts
+```
+
 ## Building and Running
 
 The project uses `Bun` as the package manager. Ensure Bun is installed globally before proceeding.
