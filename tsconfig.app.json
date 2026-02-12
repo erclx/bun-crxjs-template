@@ -11,7 +11,12 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite/client", "chrome"],
+    "types": [
+      "vite/client",
+      "chrome",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
     "allowImportingTsExtensions": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,

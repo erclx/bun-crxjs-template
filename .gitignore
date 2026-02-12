@@ -1,15 +1,30 @@
-*.log
-
-node_modules
-
-dist
-dist-ssr
-release
-
-*.local
-
-.idea
+# System
 .DS_Store
+
+# Tooling
+.gemini/*
+!.gemini/settings.json
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+
+# Dependencies
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+coverage/
+release/
+
+# Secrets
+.env
+.env.*
+*.local
+!.env.example
+
+# Playwright 
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
