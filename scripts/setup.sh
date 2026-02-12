@@ -154,7 +154,7 @@ update_metadata() {
       readme = readme.replace(/^#\s+.*$/m, '# ' + readmeTitle);
       fs.writeFileSync('README.md', readme);
     }
-  " 2>&1 | sed "s/^/${GREY}│${NC}   /"
+  " || log_error "Metadata update failed"
   
   log_info "Metadata updated successfully"
 }
@@ -230,7 +230,7 @@ install_dependencies() {
   if [ "$AUTO_INSTALL" = true ]; then
     log_step "Installing Dependencies"
     cd "$NEW_PATH"
-    bun install 2>&1 | sed "s/^/${GREY}│${NC}   /"
+    bun install
     log_info "Dependencies installed"
   fi
 }
@@ -259,12 +259,12 @@ main() {
   
   if [ "$AUTO_INSTALL" = true ]; then
     echo -e "${GREEN}✓ Setup Complete!${NC}"
-    echo -e "  Run ${WHITE}bun run dev${NC} to start development"
+    echo -e "  Run ${WHITE}\`bun run dev\`${NC} to start development"
   else
   echo -e "${GREEN}✓ Setup Complete!${NC}"
-  echo -e "  1. Run ${WHITE}cd '$NEW_PATH'${NC}"
-  echo -e "  2. Run ${WHITE}bun install${NC}"
-  echo -e "  3. Run ${WHITE}bun run dev${NC}"
+    echo -e "  1. Run ${WHITE}\`cd '$NEW_PATH'\`${NC}"
+    echo -e "  2. Run ${WHITE}\`bun install\`${NC}"
+    echo -e "  3. Run ${WHITE}\`bun run dev\`${NC}"
   fi
   echo ""
 }
