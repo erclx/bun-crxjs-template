@@ -43,9 +43,9 @@ select_option() {
   while true; do
     for i in "${!options[@]}"; do
       if [ $i -eq $cur ]; then
-        echo -e "${GREY}│${NC} ${GREEN}● ${WHITE}${options[$i]}${NC}"
+        echo -e "${GREY}│${NC}  ${GREEN}❯ ${options[$i]}${NC}"
       else
-        echo -e "${GREY}│${NC} ${GREY}○ ${options[$i]}${NC}"
+        echo -e "${GREY}│${NC}    ${GREY}${options[$i]}${NC}"
       fi
     done
 
@@ -58,7 +58,7 @@ select_option() {
         else
           echo -en "\033[$((count + 1))A\033[J"
           echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${RED}Cancelled${NC}"
-          log_error "Selection cancelled"
+          exit 1
         fi
         ;;
       "k") cur=$(( (cur - 1 + count) % count ));;
@@ -66,7 +66,7 @@ select_option() {
       "q")
         echo -en "\033[$((count + 1))A\033[J"
         echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${RED}Cancelled${NC}"
-        log_error "Selection cancelled"
+        exit 1
         ;;
       "") break ;;
     esac
@@ -82,13 +82,14 @@ select_option() {
 check_dependencies() {
   command -v git >/dev/null 2>&1 || log_error "Git is not installed."
   command -v node >/dev/null 2>&1 || log_error "Node.js is not installed."
+  command -v bun >/dev/null 2>&1 || log_error "Bun is not installed."
   [ -f "package.json" ] || log_error "package.json missing. Ensure execution from project root."
 }
 
 configure_identity() {
   ask "Extension Name?" "RAW_NAME" "my-chrome-extension"
-  ask "Description?" "PKG_DESC" "A Chrome extension built with React & Vite."
-  ask "Author?" "PKG_AUTHOR" "$(git config user.name 2>/dev/null || echo '')"
+  
+  [ -z "$RAW_NAME" ] && log_error "Extension name cannot be empty"
 
   PROJECT_NAME=$(echo "$RAW_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//;s/-$//')
   export PROJECT_NAME
@@ -99,6 +100,12 @@ configure_identity() {
 
   TITLE=$(echo "$PROJECT_NAME" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
   export TITLE
+  
+  PKG_DESC="Chrome extension built with React & Vite"
+  export PKG_DESC
+  
+  PKG_AUTHOR=$(git config user.name 2>/dev/null || echo "")
+  export PKG_AUTHOR
 }
 
 update_metadata() {
@@ -122,7 +129,6 @@ update_metadata() {
       pkg.scripts.update = './scripts/update.sh';
 
       fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
-      console.log('Updated package.json');
     }
 
     // 2. Update HTML Titles (Popup & Sidepanel)
@@ -138,7 +144,6 @@ update_metadata() {
            html = html.replace('</head>', '  <title>' + title + '</title>\n  </head>');
         }
         fs.writeFileSync(file, html);
-        console.log('Updated ' + file);
       }
     });
 
@@ -149,7 +154,8 @@ update_metadata() {
       readme = readme.replace(/^#\s+.*$/m, '# ' + readmeTitle);
       fs.writeFileSync('README.md', readme);
     }
-  "
+  " 2>&1 | sed "s/^/${GREY}│${NC}   /"
+  
   log_info "Metadata updated successfully"
 }
 
@@ -160,6 +166,8 @@ setup_environment() {
     log_add ".env (Created from .env.example)"
   elif [ -f ".env" ]; then
     log_info ".env already exists"
+  else
+    log_warn "No .env.example found, skipping .env creation"
   fi
 }
 
@@ -171,7 +179,7 @@ reset_git_history() {
   fi
 
   rm -rf .git
-  git init --initial-branch=main
+  git init --initial-branch=main --quiet
 
   SCRIPT_PATH="$0"
   if [ -f "$SCRIPT_PATH" ]; then
@@ -179,8 +187,8 @@ reset_git_history() {
     log_rem "scripts/setup.sh"
   fi
 
-  git add .
-  git commit -q -m "chore(root): initialize $PROJECT_NAME"
+  git add . --all
+  git commit --quiet -m "chore(root): initialize $PROJECT_NAME"
   log_info "Clean history initialized"
 }
 
@@ -208,24 +216,35 @@ prompt_editor() {
   case "$SELECTED_OPTION" in
     "VS Code")
       if command -v code &> /dev/null; then
-        code "$NEW_PATH" >/dev/null 2>&1
+        code "$NEW_PATH" >/dev/null 2>&1 &
         log_info "Launching VS Code..."
+        AUTO_INSTALL=true
       else
         log_warn "'code' binary not found in PATH."
       fi
       ;;
     "Cursor")
       if command -v cursor &> /dev/null; then
-        cursor "$NEW_PATH" >/dev/null 2>&1
+        cursor "$NEW_PATH" >/dev/null 2>&1 &
         log_info "Launching Cursor..."
+        AUTO_INSTALL=true
       else
         log_warn "'cursor' binary not found in PATH."
       fi
       ;;
     *)
-      # Do nothing for "No"
+      AUTO_INSTALL=false
       ;;
   esac
+}
+
+install_dependencies() {
+  if [ "$AUTO_INSTALL" = true ]; then
+    log_step "Installing Dependencies"
+    cd "$NEW_PATH"
+    bun install 2>&1 | sed "s/^/${GREY}│${NC}   /"
+    log_info "Dependencies installed"
+  fi
 }
 
 main() {
@@ -247,12 +266,19 @@ main() {
 
   finalize_folder
   prompt_editor
+  install_dependencies
 
   echo -e "${GREY}└${NC}\n"
+  
+  if [ "$AUTO_INSTALL" = true ]; then
+    echo -e "${GREEN}✓ Setup Complete!${NC}"
+    echo -e "  Run ${WHITE}bun run dev${NC} to start development"
+  else
   echo -e "${GREEN}✓ Setup Complete!${NC}"
   echo -e "  1. Run ${WHITE}cd '$NEW_PATH'${NC}"
   echo -e "  2. Run ${WHITE}bun install${NC}"
   echo -e "  3. Run ${WHITE}bun run dev${NC}"
+  fi
   echo ""
 }
 
