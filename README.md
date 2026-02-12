@@ -136,4 +136,4 @@ Report issues on [GitHub Issues](../../issues).
 
 ## License
 
-Refer to the [LICENSE](LICENSE) file for licensing information.
+[MIT](LICENSE)
