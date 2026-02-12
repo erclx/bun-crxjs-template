@@ -1,2 +1,4 @@
 scannability
 sidepanel
+toupper
+tolower
