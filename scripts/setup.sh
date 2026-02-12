@@ -159,18 +159,6 @@ update_metadata() {
   log_info "Metadata updated successfully"
 }
 
-setup_environment() {
-  log_step "Environment Configuration"
-  if [ ! -f ".env" ] && [ -f ".env.example" ]; then
-    cp .env.example .env
-    log_add ".env (Created from .env.example)"
-  elif [ -f ".env" ]; then
-    log_info ".env already exists"
-  else
-    log_warn "No .env.example found, skipping .env creation"
-  fi
-}
-
 reset_git_history() {
   log_step "Resetting Git History"
   if [ -d "scripts" ]; then
@@ -255,7 +243,6 @@ main() {
 
   configure_identity
   update_metadata
-  setup_environment
   reset_git_history
 
   log_step "Files Modified"
