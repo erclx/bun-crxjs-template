@@ -1,0 +1,12 @@
+bun
+bunx
+clsx
+commitlint
+crxjs
+lucide
+nextjs
+shadcn
+tailwindcss
+turbopack
+Vite
+zod
