@@ -1,17 +1,16 @@
 # Chrome Extension Template
 
-This project is a comprehensive template for building Chrome Extensions, leveraging a modern web development stack. It is designed to streamline the development of browser extensions with a focus on developer experience, performance, and code quality.
+This project is a template for building Chrome Extensions. It uses a modern web development stack to simplify browser extension development, emphasizing developer experience, performance, and code quality.
 
 ## Project Overview
 
 - **Type**: Chrome Extension Template
 - **Technologies**: React, TypeScript, Vite, CRXJS (Vite plugin for Chrome Extension development), Tailwind CSS, Bun (as the package manager and runtime).
-- **Purpose**: To provide a robust and easy-to-use starter for creating Chrome extensions, offering pre-configured tools for building UI, managing extension manifest, and enforcing code standards.
+- **Purpose**: Provides a starter for creating Chrome extensions. It includes pre-configured tools for building UI, managing the extension manifest, and enforcing code standards.
 - **Key Features**:
   - Separate entry points for popup, side panel, and content scripts.
-  - Automated manifest generation via CRXJS.
-  - Integrated development tools: ESLint for linting, Prettier for code formatting, Husky for Git hooks, and Commitlint for conventional commit messages.
-  - Comprehensive testing setup with Vitest for unit/integration tests and Playwright for end-to-end tests.
+  - Integrated development tools: ESLint, Prettier, Husky (for Git hooks), and Commitlint (for conventional commit messages).
+  - Testing setup with Vitest (for unit/integration tests) and Playwright (for end-to-end tests).
 
 ## Building and Running
 
