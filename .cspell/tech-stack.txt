@@ -9,4 +9,5 @@ shadcn
 tailwindcss
 turbopack
 Vite
+vitest
 zod
