@@ -48,11 +48,11 @@ src/
 The project uses `Bun` as the package manager. Ensure Bun is installed globally before proceeding.
 
 - **Initial Setup**:
-  1.  Clone the repository: `git clone <repo-url> my-extension`
-  2.  Navigate to the project directory: `cd my-extension`
-  3.  Run the setup script: `bun reset` (this executes `scripts/setup.sh` to clean the template, update metadata, and initialize Git).
-- **Install Dependencies**: `bun install`
-- **Start Development Server**: `bun dev`
+  1. Clone the repository: `git clone <repo-url> my-extension`
+  2. Navigate to the project directory: `cd my-extension`
+  3. Run the setup script: `bun run reset` (this executes `scripts/setup.sh` to clean the template, update metadata, and initialize Git).
+- **Install Dependencies**: `bun run install`
+- **Start Development Server**: `bun run dev`
   - This command starts the Vite development server.
   - To load the extension in Chrome:
     1.  Open `chrome://extensions/` in your browser.
@@ -66,50 +66,25 @@ The project uses `Bun` as the package manager. Ensure Bun is installed globally 
 
 ### Script Commands
 
-The following `bun` scripts are available for development and maintenance:
+The following scripts are available for development and maintenance:
 
-- `bun dev`: Starts the development server.
-- `bun build`: Builds the project for production.
-- `bun preview`: Previews the production build locally.
-- `bun prepare`: Runs Husky setup for Git hooks.
-- `bun format`: Formats code using Prettier.
-- `bun check:format`: Checks code formatting using Prettier.
-- `bun lint`: Lints code using ESLint.
-- `bun lint:fix`: Lints code and fixes issues using ESLint.
-- `bun lint:spell`: Checks spelling across the project using CSpell.
-- `bun typecheck`: Runs TypeScript type checking.
-- `bun test`: Runs unit/integration tests using Vitest.
-- `bun test:ui`: Runs Vitest in UI mode.
-- `bun test:coverage`: Runs Vitest and generates code coverage reports.
-- `bun test:e2e`: Runs end-to-end tests using Playwright.
-- `bun test:e2e:ui`: Runs Playwright in UI mode.
-- `bun test:e2e:report`: Shows Playwright test reports.
-- `bun check`: Executes `./scripts/verify.sh` for comprehensive checks.
-- `bun check:full`: Executes `./scripts/verify.sh` and end-to-end tests.
-- `bun clean`: Executes `./scripts/clean.sh` to clean build artifacts.
-- `bun update`: Executes `./scripts/update.sh` (likely for dependency updates or similar maintenance).
-
-### Commit Message Format
-
-The project adheres to the Conventional Commits specification.
-
-- **Template**: `<type>(<scope>): <subject>`
-- **Casing**: Use 100% lowercase for the entire message.
-- **Scope**: Use a directory name or system component (e.g., `scripts`, `popup`, `content`).
-- **Limit**: Subjects must be under 72 characters and should not end with a period.
-
-### File Naming Conventions
-
-- TypeScript/TSX files (`**/*.{ts,tsx}`): Filenames should use `KEBAB_CASE`.
-- Source folders (`src/**/!(__tests__)`): Folder names (excluding `__tests__` directories) should use `KEBAB_CASE`.
-
-### Core Engineering Principles
-
-(These principles are inherited from the broader AI Toolkit project and guide development within this template.)
-
-- **Zero bloat**: Implement only what you need now.
-- **Zero comments**: Code must be self-explanatory.
-- **Why over what**: Use comments only to explain intent, not logic.
-- **Native first**: Avoid adding dependencies if native platform tools exist.
-- **Idempotency**: Ensure scripts are safe to run multiple times.
-- **Temporary state**: Store all transient data in `.gemini/.tmp/`.
+- `bun run dev`: Starts the development server.
+- `bun run build`: Builds the project for production.
+- `bun run preview`: Previews the production build locally.
+- `bun run prepare`: Runs Husky setup for Git hooks.
+- `bun run format`: Formats code using Prettier.
+- `bun run check:format`: Checks code formatting using Prettier.
+- `bun run lint`: Lints code using ESLint.
+- `bun run lint:fix`: Lints code and fixes issues using ESLint.
+- `bun run lint:spell`: Checks spelling across the project using CSpell.
+- `bun run typecheck`: Runs TypeScript type checking.
+- `bun run test`: Runs unit/integration tests using Vitest.
+- `bun run test:ui`: Runs Vitest in UI mode.
+- `bun run test:coverage`: Runs Vitest and generates code coverage reports.
+- `bun run test:e2e`: Runs end-to-end tests using Playwright.
+- `bun run test:e2e:ui`: Runs Playwright in UI mode.
+- `bun run test:e2e:report`: Shows Playwright test reports.
+- `bun run check`: Executes `./scripts/verify.sh` for comprehensive checks.
+- `bun run check:full`: Executes `./scripts/verify.sh` and end-to-end tests.
+- `bun run clean`: Executes `./scripts/clean.sh` to clean build artifacts.
+- `bun run update`: Executes `./scripts/update.sh` to update dependencies.
