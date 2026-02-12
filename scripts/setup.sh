@@ -31,6 +31,54 @@ ask() {
   echo -e "\033[1A\r\033[K${GREY}◇${NC} ${prompt_text} ${WHITE}${input}${NC}"
 }
 
+select_option() {
+  local prompt_text=$1
+  shift
+  local options=("$@")
+  local cur=0
+  local count=${#options[@]}
+
+  echo -ne "${GREY}│${NC}\n${GREEN}◆${NC} ${prompt_text}\n"
+
+  while true; do
+    for i in "${!options[@]}"; do
+      if [ $i -eq $cur ]; then
+        echo -e "${GREY}│${NC} ${GREEN}● ${WHITE}${options[$i]}${NC}"
+      else
+        echo -e "${GREY}│${NC} ${GREY}○ ${options[$i]}${NC}"
+      fi
+    done
+
+    read -rsn1 key
+    case "$key" in
+      $'\x1b')
+        if read -rsn2 -t 0.001 key_seq; then
+          if [[ "$key_seq" == "[A" ]]; then cur=$(( (cur - 1 + count) % count )); fi
+          if [[ "$key_seq" == "[B" ]]; then cur=$(( (cur + 1) % count )); fi
+        else
+          echo -en "\033[$((count + 1))A\033[J"
+          echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${RED}Cancelled${NC}"
+          log_error "Selection cancelled"
+        fi
+        ;;
+      "k") cur=$(( (cur - 1 + count) % count ));;
+      "j") cur=$(( (cur + 1) % count ));;
+      "q")
+        echo -en "\033[$((count + 1))A\033[J"
+        echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${RED}Cancelled${NC}"
+        log_error "Selection cancelled"
+        ;;
+      "") break ;;
+    esac
+
+    echo -en "\033[${count}A"
+  done
+
+  echo -en "\033[$((count + 1))A\033[J"
+  echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${WHITE}${options[$cur]}${NC}"
+  SELECTED_OPTION="${options[$cur]}"
+}
+
 check_dependencies() {
   command -v git >/dev/null 2>&1 || log_error "Git is not installed."
   command -v node >/dev/null 2>&1 || log_error "Node.js is not installed."
@@ -153,6 +201,33 @@ finalize_folder() {
   fi
 }
 
+prompt_editor() {
+  echo -e "${GREY}│${NC}"
+  select_option "Open in Editor?" "No" "VS Code" "Cursor"
+
+  case "$SELECTED_OPTION" in
+    "VS Code")
+      if command -v code &> /dev/null; then
+        code "$NEW_PATH" >/dev/null 2>&1
+        log_info "Launching VS Code..."
+      else
+        log_warn "'code' binary not found in PATH."
+      fi
+      ;;
+    "Cursor")
+      if command -v cursor &> /dev/null; then
+        cursor "$NEW_PATH" >/dev/null 2>&1
+        log_info "Launching Cursor..."
+      else
+        log_warn "'cursor' binary not found in PATH."
+      fi
+      ;;
+    *)
+      # Do nothing for "No"
+      ;;
+  esac
+}
+
 main() {
   check_dependencies
 
@@ -171,6 +246,7 @@ main() {
   log_add ".git/"
 
   finalize_folder
+  prompt_editor
 
   echo -e "${GREY}└${NC}\n"
   echo -e "${GREEN}✓ Setup Complete!${NC}"
