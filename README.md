@@ -28,13 +28,13 @@ cd my-extension
 Run the setup script. This cleans the template, updates project metadata, and initializes a fresh Git repository.
 
 ```bash
-bun reset
+bun run reset
 ```
 
 ### Install Dependencies
 
 ```bash
-bun install
+bun run install
 ```
 
 ## Development
@@ -44,7 +44,7 @@ bun install
 Run the development server. This command starts the Vite development server.
 
 ```bash
-bun dev
+bun run dev
 ```
 
 To load the extension in Chrome:
@@ -58,13 +58,13 @@ To load the extension in Chrome:
 Build the project for production. This compiles TypeScript and bundles assets.
 
 ```bash
-bun build
+bun run build
 ```
 
 ### Preview Production Build
 
 ```bash
-bun preview
+bun run preview
 ```
 
 ## Project Structure
@@ -100,28 +100,28 @@ src/
 
 ## Development Commands
 
-The following `bun` scripts are available for development and maintenance:
+The following scripts are available for development and maintenance:
 
-- `bun dev`: Starts the development server.
-- `bun build`: Builds the project for production.
-- `bun preview`: Previews the production build locally.
-- `bun prepare`: Runs Husky setup for Git hooks.
-- `bun format`: Formats code using Prettier.
-- `bun check:format`: Checks code formatting using Prettier.
-- `bun lint`: Lints code using ESLint.
-- `bun lint:fix`: Lints code and fixes issues using ESLint.
-- `bun lint:spell`: Checks spelling across the project using CSpell.
-- `bun typecheck`: Runs TypeScript type checking.
-- `bun test`: Runs unit/integration tests using Vitest.
-- `bun test:ui`: Runs Vitest in UI mode.
-- `bun test:coverage`: Runs Vitest and generates code coverage reports.
-- `bun test:e2e`: Runs end-to-end tests using Playwright.
-- `bun test:e2e:ui`: Runs Playwright in UI mode.
-- `bun test:e2e:report`: Shows Playwright test reports.
-- `bun check`: Executes `./scripts/verify.sh` for comprehensive checks.
-- `bun check:full`: Executes `./scripts/verify.sh` and end-to-end tests.
-- `bun clean`: Executes `./scripts/clean.sh` to clean build artifacts.
-- `bun update`: Executes `./scripts/update.sh` (likely for dependency updates or similar maintenance).
+- `bun run dev`: Starts the development server.
+- `bun run build`: Builds the project for production.
+- `bun run preview`: Previews the production build locally.
+- `bun run prepare`: Runs Husky setup for Git hooks.
+- `bun run format`: Formats code using Prettier.
+- `bun run check:format`: Checks code formatting using Prettier.
+- `bun run lint`: Lints code using ESLint.
+- `bun run lint:fix`: Lints code and fixes issues using ESLint.
+- `bun run lint:spell`: Checks spelling across the project using CSpell.
+- `bun run typecheck`: Runs TypeScript type checking.
+- `bun run test`: Runs unit/integration tests using Vitest.
+- `bun run test:ui`: Runs Vitest in UI mode.
+- `bun run test:coverage`: Runs Vitest and generates code coverage reports.
+- `bun run test:e2e`: Runs end-to-end tests using Playwright.
+- `bun run test:e2e:ui`: Runs Playwright in UI mode.
+- `bun run test:e2e:report`: Shows Playwright test reports.
+- `bun run check`: Executes `./scripts/verify.sh` for comprehensive checks.
+- `bun run check:full`: Executes `./scripts/verify.sh` and end-to-end tests.
+- `bun run clean`: Executes `./scripts/clean.sh` to clean build artifacts.
+- `bun run update`: Executes `./scripts/update.sh` (likely for dependency updates or similar maintenance).
 
 ## Documentation
 
