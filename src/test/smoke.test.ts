@@ -6,6 +6,6 @@ describe('Unit Test Infrastructure', () => {
   })
 
   it('should support environment variables', () => {
-    expect(process.env.NODE_ENV).toBeDefined()
+    expect(import.meta.env.MODE).toBeDefined()
   })
 })

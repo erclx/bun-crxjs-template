@@ -21,7 +21,7 @@ export default defineConfig({
     command: 'bun run dev',
     url: 'http://localhost:5173/src/popup/index.html',
     reuseExistingServer: !process.env.CI,
-    stdout: 'pipe',
+    stdout: 'ignore',
     stderr: 'pipe',
   },
 })
