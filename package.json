@@ -9,13 +9,14 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "prepare": "husky",
-    "format": "prettier --write .",
-    "check:format": "prettier --check .",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:spell": "cspell '**' --no-progress --color",
+    "format": "prettier --write --ignore-path .gitignore . && shfmt --write -indent 2 **/*.sh",
+    "check:format": "prettier --check --ignore-path .gitignore . && shfmt --diff --indent 2 **/*.sh",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix --max-warnings 0",
+    "check:spell": "cspell '**' --no-progress --color --show-context",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
+    "test:run": "vitest run --reporter=verbose",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
@@ -25,7 +26,7 @@
     "check:full": "./scripts/verify.sh && bun run test:e2e",
     "clean": "./scripts/clean.sh",
     "update": "./scripts/update.sh",
-    "reset": "./scripts/setup.sh"
+    "setup": "./scripts/setup.sh"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
