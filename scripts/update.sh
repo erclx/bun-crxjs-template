@@ -9,9 +9,12 @@ WHITE='\033[1;37m'
 GREY='\033[0;90m'
 NC='\033[0m'
 
-log_warn()  { echo -e "${GREY}│${NC} ${YELLOW}!${NC} $1"; }
-log_error() { echo -e "${GREY}│${NC} ${RED}✗${NC} $1"; exit 1; }
-log_step()  { echo -e "${GREY}│${NC}\n${GREY}├${NC} ${WHITE}$1${NC}"; }
+log_warn() { echo -e "${GREY}│${NC} ${YELLOW}!${NC} $1"; }
+log_error() {
+  echo -e "${GREY}│${NC} ${RED}✗${NC} $1"
+  exit 1
+}
+log_step() { echo -e "${GREY}│${NC}\n${GREY}├${NC} ${WHITE}$1${NC}"; }
 
 check_dependencies() {
   command -v bun >/dev/null 2>&1 || log_error "bun is not installed"

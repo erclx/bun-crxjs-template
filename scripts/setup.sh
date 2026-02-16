@@ -9,12 +9,15 @@ WHITE='\033[1;37m'
 GREY='\033[0;90m'
 NC='\033[0m'
 
-log_info()  { echo -e "${GREY}│${NC} ${GREEN}✓${NC} $1"; }
-log_warn()  { echo -e "${GREY}│${NC} ${YELLOW}!${NC} $1"; }
-log_error() { echo -e "${GREY}│${NC} ${RED}✗${NC} $1"; exit 1; }
-log_step()  { echo -e "${GREY}│${NC}\n${GREY}├${NC} ${WHITE}$1${NC}"; }
-log_add()   { echo -e "${GREY}│${NC} ${GREEN}+${NC} $1"; }
-log_rem()   { echo -e "${GREY}│${NC} ${RED}-${NC} $1"; }
+log_info() { echo -e "${GREY}│${NC} ${GREEN}✓${NC} $1"; }
+log_warn() { echo -e "${GREY}│${NC} ${YELLOW}!${NC} $1"; }
+log_error() {
+  echo -e "${GREY}│${NC} ${RED}✗${NC} $1"
+  exit 1
+}
+log_step() { echo -e "${GREY}│${NC}\n${GREY}├${NC} ${WHITE}$1${NC}"; }
+log_add() { echo -e "${GREY}│${NC} ${GREEN}+${NC} $1"; }
+log_rem() { echo -e "${GREY}│${NC} ${RED}-${NC} $1"; }
 
 ask() {
   local prompt_text=$1
@@ -51,24 +54,24 @@ select_option() {
 
     read -rsn1 key
     case "$key" in
-      $'\x1b')
-        if read -rsn2 -t 0.001 key_seq; then
-          if [[ "$key_seq" == "[A" ]]; then cur=$(( (cur - 1 + count) % count )); fi
-          if [[ "$key_seq" == "[B" ]]; then cur=$(( (cur + 1) % count )); fi
-        else
-          echo -en "\033[$((count + 1))A\033[J"
-          echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${RED}Cancelled${NC}"
-          exit 1
-        fi
-        ;;
-      "k") cur=$(( (cur - 1 + count) % count ));;
-      "j") cur=$(( (cur + 1) % count ));;
-      "q")
+    $'\x1b')
+      if read -rsn2 -t 0.001 key_seq; then
+        if [[ "$key_seq" == "[A" ]]; then cur=$(((cur - 1 + count) % count)); fi
+        if [[ "$key_seq" == "[B" ]]; then cur=$(((cur + 1) % count)); fi
+      else
         echo -en "\033[$((count + 1))A\033[J"
         echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${RED}Cancelled${NC}"
         exit 1
-        ;;
-      "") break ;;
+      fi
+      ;;
+    "k") cur=$(((cur - 1 + count) % count)) ;;
+    "j") cur=$(((cur + 1) % count)) ;;
+    "q")
+      echo -en "\033[$((count + 1))A\033[J"
+      echo -e "\033[1A${GREY}◇${NC} ${prompt_text} ${RED}Cancelled${NC}"
+      exit 1
+      ;;
+    "") break ;;
     esac
 
     echo -en "\033[${count}A"
@@ -88,7 +91,7 @@ check_dependencies() {
 
 configure_identity() {
   ask "Extension Name?" "RAW_NAME" "my-chrome-extension"
-  
+
   [ -z "$RAW_NAME" ] && log_error "Extension name cannot be empty"
 
   PROJECT_NAME=$(echo "$RAW_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//;s/-$//')
@@ -100,17 +103,17 @@ configure_identity() {
 
   TITLE=$(echo "$PROJECT_NAME" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
   export TITLE
-  
+
   PKG_DESC="Chrome extension built with React & Vite"
   export PKG_DESC
-  
+
   PKG_AUTHOR=$(git config user.name 2>/dev/null || echo "")
   export PKG_AUTHOR
 }
 
 update_metadata() {
   log_step "Updating Extension Metadata"
-  
+
   node -e "
     const fs = require('fs');
     const path = require('path');
@@ -158,7 +161,7 @@ update_metadata() {
       fs.writeFileSync('README.md', readme);
     }
   " || log_error "Metadata update failed"
-  
+
   log_info "Metadata updated successfully"
 }
 
@@ -205,27 +208,27 @@ prompt_editor() {
   select_option "Open in Editor?" "No" "VS Code" "Cursor"
 
   case "$SELECTED_OPTION" in
-    "VS Code")
-      if command -v code &> /dev/null; then
-        code "$NEW_PATH" >/dev/null 2>&1 &
-        log_info "Launching VS Code..."
-        AUTO_INSTALL=true
-      else
-        log_warn "'code' binary not found in PATH."
-      fi
-      ;;
-    "Cursor")
-      if command -v cursor &> /dev/null; then
-        cursor "$NEW_PATH" >/dev/null 2>&1 &
-        log_info "Launching Cursor..."
-        AUTO_INSTALL=true
-      else
-        log_warn "'cursor' binary not found in PATH."
-      fi
-      ;;
-    *)
-      AUTO_INSTALL=false
-      ;;
+  "VS Code")
+    if command -v code &>/dev/null; then
+      code "$NEW_PATH" >/dev/null 2>&1 &
+      log_info "Launching VS Code..."
+      AUTO_INSTALL=true
+    else
+      log_warn "'code' binary not found in PATH."
+    fi
+    ;;
+  "Cursor")
+    if command -v cursor &>/dev/null; then
+      cursor "$NEW_PATH" >/dev/null 2>&1 &
+      log_info "Launching Cursor..."
+      AUTO_INSTALL=true
+    else
+      log_warn "'cursor' binary not found in PATH."
+    fi
+    ;;
+  *)
+    AUTO_INSTALL=false
+    ;;
   esac
 }
 
@@ -259,12 +262,12 @@ main() {
   install_dependencies
 
   echo -e "${GREY}└${NC}\n"
-  
+
   if [ "$AUTO_INSTALL" = true ]; then
     echo -e "${GREEN}✓ Setup Complete!${NC}"
     echo -e "  Run ${WHITE}\`bun run dev\`${NC} to start development"
   else
-  echo -e "${GREEN}✓ Setup Complete!${NC}"
+    echo -e "${GREEN}✓ Setup Complete!${NC}"
     echo -e "  1. Run ${WHITE}\`cd '$NEW_PATH'\`${NC}"
     echo -e "  2. Run ${WHITE}\`bun install\`${NC}"
     echo -e "  3. Run ${WHITE}\`bun run dev\`${NC}"
