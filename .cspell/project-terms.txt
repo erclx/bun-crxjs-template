@@ -1,4 +1,9 @@
+bradlc
+dbaeumer
+esbenp
+mkhl
 scannability
+shfmt
 sidepanel
-toupper
 tolower
+toupper
