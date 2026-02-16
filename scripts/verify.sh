@@ -25,27 +25,27 @@ main() {
   echo -e "${GREY}┌${NC}"
 
   log_step "1. Type Checking"
-  bun x tsc --noEmit || log_error "Type Check Failed"
+  bun run typecheck || log_error "Type Check Failed"
   log_info "Types valid"
 
   log_step "2. Linting"
-  bun x eslint . --max-warnings 0 --format=stylish || log_error "Linting Failed"
+  bun run lint || log_error "Linting Failed"
   log_info "Linting clean"
 
   log_step "3. Formatting"
-  bun x prettier --check . --log-level=warn || log_error "Formatting Check Failed"
+  bun run check:format || log_error "Formatting Check Failed"
   log_info "Formatting correct"
 
   log_step "4. Spelling"
-  bun x cspell "**" --no-must-find-files --show-context || log_error "Spelling Check Failed"
+  bun run check:spell || log_error "Spelling Check Failed"
   log_info "Spelling correct"
 
   log_step "5. Unit Testing"
-  bun x vitest run --reporter=verbose || log_error "Tests Failed"
+  bun run test:run || log_error "Tests Failed"
   log_info "Tests passed"
 
   log_step "6. Production Build"
-  bun run build || log_error "Build Failed"
+  bun run build || log_error "Build Failed - Assets could not be bundled"
   log_info "Build successful"
 
   echo -e "${GREY}└${NC}\n"
