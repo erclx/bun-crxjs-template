@@ -14,17 +14,14 @@ const ignoreConfig = globalIgnores([
   'dist-ssr',
   'coverage',
   'release',
+  '.claude',
   '.gemini',
   '.vscode',
-  'node_modules',
+  '.husky',
   'test-results',
   'playwright-report',
   'blob-report',
   'playwright/.cache',
-  '**/bun.lock',
-  '**/.env',
-  '**/.env.*',
-  '**/.*.local',
 ])
 
 const featureConfig = {

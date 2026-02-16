@@ -13,5 +13,5 @@ document.body.appendChild(container)
 createRoot(container).render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
 )
