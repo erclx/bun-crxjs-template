@@ -17,7 +17,7 @@ const ignoreConfig = globalIgnores([
   '.claude',
   '.gemini',
   '.vscode',
-  'node_modules',
+  '.husky',
   'test-results',
   'playwright-report',
   'blob-report',
