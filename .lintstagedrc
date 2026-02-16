@@ -1,5 +1,9 @@
 {
-  "**/*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
-  "**/*.{json,css,md}": ["prettier --write"],
-  "**/*.{js,ts,json,md}": ["cspell --no-must-find-files"]
+  "**/*.{js,jsx,ts,tsx}": [
+    "eslint --fix --max-warnings 0",
+    "prettier --write --ignore-path .gitignore"
+  ],
+  "**/*.{json,css,md}": ["prettier --write --ignore-path .gitignore"],
+  "**/*.sh": ["shfmt --write --indent 2"],
+  "**/*.{js,jsx,ts,tsx,json,css,md}": ["cspell --no-must-find-files"]
 }
