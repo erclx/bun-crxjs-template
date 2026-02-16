@@ -4,6 +4,8 @@
 # Tooling
 .gemini/*
 !.gemini/settings.json
+.claude/*
+!.claude/settings.json
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -23,7 +25,7 @@ release/
 *.local
 !.env.example
 
-# Playwright 
+# Playwright
 test-results/
 playwright-report/
 blob-report/
