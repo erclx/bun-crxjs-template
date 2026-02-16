@@ -14,6 +14,7 @@ const ignoreConfig = globalIgnores([
   'dist-ssr',
   'coverage',
   'release',
+  '.claude',
   '.gemini',
   '.vscode',
   'node_modules',
@@ -21,10 +22,6 @@ const ignoreConfig = globalIgnores([
   'playwright-report',
   'blob-report',
   'playwright/.cache',
-  '**/bun.lock',
-  '**/.env',
-  '**/.env.*',
-  '**/.*.local',
 ])
 
 const featureConfig = {
