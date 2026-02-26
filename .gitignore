@@ -30,3 +30,7 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+
+# Chrome Extension
+*.crx
+*.pem

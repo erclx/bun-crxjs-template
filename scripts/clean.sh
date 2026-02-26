@@ -26,12 +26,9 @@ main() {
   echo -e "${GREY}┌${NC}"
 
   log_step "Cleaning Artifacts"
-  rm -rf node_modules dist dist-ssr coverage release
+  rm -rf node_modules
 
   log_rem "node_modules/"
-  log_rem "dist/"
-  log_rem "coverage/"
-  log_rem "release/"
 
   log_step "Cleaning Cache"
   bun pm cache rm
