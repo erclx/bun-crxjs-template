@@ -1,6 +1,6 @@
 ## Summary
 
-<Action Verb> <Direct Object> to <Result>. (Max 20 words).
+<Action Verb> <Direct Object> to <Result>.
 
 ## Key Changes
 
@@ -9,11 +9,11 @@
 
 ## Technical Context
 
-- <Brief technical reasoning (1 line max)>
+- <Why this approach was taken, not what changed>
 
 ## Testing
 
-- <Specific command run>
+- <Specific command or test case>
 - <Edge case verified>
 
-<## 📸 Visuals (if applicable)>
+<!-- Visuals: include only if clarifying architecture, UI, or complex logic flows -->
