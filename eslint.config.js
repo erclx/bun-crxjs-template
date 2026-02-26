@@ -33,6 +33,7 @@ const featureConfig = {
   rules: {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'check-file/filename-naming-convention': [
       'error',
       { '**/*.{ts,tsx}': 'KEBAB_CASE' },
@@ -69,9 +70,7 @@ const testConfig = {
   name: 'feature/testing',
   files: ['**/*.test.{ts,tsx}'],
   languageOptions: {
-    globals: {
-      ...globals.jest,
-    },
+    globals: vitest.environments.env.globals,
   },
   plugins: { vitest },
   rules: {
