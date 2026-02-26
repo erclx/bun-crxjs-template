@@ -29,7 +29,7 @@ git clone [https://github.com/erclx/bun-crxjs-template](https://github.com/erclx
 cd my-extension
 ```
 
-**Important:** Run the setup script immediately. This cleans the template history, updates project metadata (package.json, HTML titles), and initializes a fresh Git repository for your new extension.
+**Important:** Run the setup script immediately. This cleans the template history, updates project metadata (package.json, HTML titles), and initializes a fresh Git repository for your new extension. This script deletes itself after successful execution.
 
 ```bash
 bun run reset
@@ -107,14 +107,15 @@ src/
 - `bun run dev`: Starts the development server.
 - `bun run build`: Builds the project for production.
 - `bun run preview`: Previews the production build locally.
-- `bun run check`: **Recommended** - Runs typechecking, linting, formatting, spellcheck, tests, and build verification.
+- `bun run check`: **Recommended** - Runs Format, Typecheck, Lint, Format Check, Spellcheck, Unit Test, Snapshot, and Build verification.
 - `bun run check:full`: Runs `check` plus End-to-End tests.
 - `bun run format`: Formats code using Prettier.
 - `bun run lint`: Lints code using ESLint.
 - `bun run test`: Runs unit/integration tests using Vitest.
 - `bun run test:e2e`: Runs end-to-end tests using Playwright.
-- `bun run clean`: Removes build artifacts (`dist`, `node_modules`, `coverage`).
-- `bun run update`: Interactively updates dependencies.
+- `bun run snapshot`: Generates a project snapshot in `.claude/PROJECT.md`.
+- `bun run clean`: Removes `node_modules` and other temporary files.
+- `bun run update`: Interactively updates dependencies and performs a full project verification.
 
 ## Commit Standards
 
