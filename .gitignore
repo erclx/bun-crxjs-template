@@ -1,21 +1,11 @@
 # System
 .DS_Store
 
-# Tooling
-.gemini/*
-!.gemini/settings.json
-.claude/*
-!.claude/settings.json
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-
 # Dependencies
 node_modules/
 
 # Build
 dist/
-dist-ssr/
 coverage/
 release/
 
@@ -34,3 +24,15 @@ playwright/.cache/
 # Chrome Extension
 *.crx
 *.pem
+
+# Gemini
+.gemini/.tmp/
+
+# Claude
+.claude/.tmp/
+.claude/PROJECT.md
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
