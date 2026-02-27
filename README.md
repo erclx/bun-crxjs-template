@@ -4,7 +4,7 @@ This project is a template for building Chrome Extensions. It uses a modern web 
 
 ## Features
 
-- **Architecture**: Separate entry points for popup, side panel, content scripts, and background service worker.
+- **Architecture**: Separate entry points for popup, side panel, and background service worker. Content scripts use Shadow DOM for style encapsulation.
 - **Build System**: Vite 7 with CRXJS for automated manifest generation and HMR.
 - **Styling**: Tailwind CSS v4 configured with a reusable `cn` utility.
 - **Quality Control**:
