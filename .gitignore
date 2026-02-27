@@ -31,3 +31,8 @@ playwright/.cache/
 # Claude
 .claude/.tmp/
 .claude/PROJECT.md
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
