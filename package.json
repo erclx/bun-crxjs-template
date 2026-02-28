@@ -9,8 +9,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "prepare": "husky",
-    "format": "prettier --write --ignore-path .gitignore . && shfmt --write --indent 2 **/*.sh",
-    "check:format": "prettier --check --ignore-path .gitignore . && shfmt --diff --indent 2 **/*.sh",
+    "format": "prettier --write --ignore-path .gitignore . && shfmt --write --indent 2 scripts/",
+    "check:format": "prettier --check --ignore-path .gitignore . && shfmt --diff --indent 2 scripts/",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix --max-warnings 0",
     "check:spell": "cspell '**' --no-progress --color --show-context",
@@ -27,7 +27,7 @@
     "clean": "./scripts/clean.sh",
     "update": "./scripts/update.sh",
     "setup": "./scripts/setup.sh",
-    "check:shell": "shellcheck --severity=warning **/*.sh",
+    "check:shell": "find scripts -name '*.sh' -exec shellcheck --severity=warning {} +",
     "snapshot": "./scripts/snapshot.sh"
   },
   "dependencies": {
